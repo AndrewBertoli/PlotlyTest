@@ -1,6 +1,6 @@
 library(plotly)
 library(lubridate)
-py <- plotly("abertoli", "c9hf6j0qf7")
+py <- plotly("USER", "PASS")
 
 
 USA=read.csv("USA.csv")
