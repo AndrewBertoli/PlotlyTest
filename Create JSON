@@ -1,0 +1,44 @@
+library(plotly)
+library(lubridate)
+py <- plotly("USER", "PASS")
+
+USA=read.csv("USA.csv")
+
+USA$BeginDate=decimal_date(as.Date(USA[,"BeginDate"],format='%m/%d/%Y'))
+USA$EndDate=decimal_date(as.Date(USA[,"EndDate"],format='%m/%d/%Y'))
+
+Wars=decimal_date(as.Date(c("1812-6-18","1846-4-25","1899-6-2","1917-4-1","1942-12-8","1950-7-1","1964-2-23","2001-10-7","2003-3-20")))
+
+
+United.At.Time=c("United ","United ","United ","United ","United ","United ","United ","Divided ","United ")
+
+WarsNames=c("War of 1812","Mexican-American War","Spanish-American War","World War I","World War II","Korean War","Vietnam War"," War in Afghanistan","War in Iraq")
+
+anyNA=function(points){if(sum(is.na(points))>0){return(TRUE)};return(FALSE)}
+
+USwars=data.frame(Wars,United.At.Time,Wars)
+
+x=c()
+for(i in 1:length(USA$BeginDate)){x=c(x,USA$BeginDate[i],USA$EndDate[i],NA)}
+
+y=c()
+for(i in 1:length(USA$BeginDate)){y=c(y,rep(USA$United[i],2),NA)}
+
+y[y==1&is.na(y)==FALSE]="United "
+y[y==0|is.na(y)==TRUE]="Divided "
+segs=list(x=x,y=y,mode="lines",name="segs",line=list(color="rgb(100,149,237)", width=22, dash="solid", shape="linear"), showlegend=FALSE, xsrc="abertoli:141:d39ccb", ysrc="abertoli:141:b90557", type="scatter")
+Korea <- list(x=1950.49, y="United ", mode="markers", name="Korean War", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"),  showlegend=FALSE, xsrc="abertoli:141:702e30", ysrc="abertoli:141:a20361", type="scatter")
+Mexico <- list(1846.31, y="United ", mode="markers", name="Mexican-American War", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:75e1b9", ysrc="abertoli:141:a20361", type="scatter")
+Spain <- list(1899.42, y="United ", mode="markers", name="Spanish-American War", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:2dffef", ysrc="abertoli:141:a20361", type="scatter")
+Vietnam <- list(x=1964.14480874, y="United ", mode="markers", name="Vietnam War", marker=list( color="rgb(0,0,0)", size=11, symbol="circle", opacity=1,  sizeref=1,  sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:6fb63c", ysrc="abertoli:141:a20361", type="scatter")
+Afghanistan <- list(x=2001.76438356, y="Divided ", mode="markers", name="War in Afghanistan", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:e5c34f", ysrc="abertoli:141:5222c1", type="scatter")
+Iraq <- list(x=2003.21369863, y="United ", mode="markers", name="War in Iraq", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:a8c362", ysrc="abertoli:141:a20361", type="scatter")
+England <- list(x=1812.46, y="United ", mode="markers", name="War of 1812", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:f0a271", ysrc="abertoli:141:a20361", type="scatter")
+WWI <- list(x=1917.24657534, y="United ", mode="markers", name="World War I", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:86bb27", ysrc="abertoli:141:a20361", type="scatter")
+WWII <- list(x=1942.93424658, y="United ", mode="markers", name="World War II", marker=list(color="rgb(0,0,0)", size=11, symbol="circle", opacity=1, sizeref=1, sizemode="area"), showlegend=FALSE, xsrc="abertoli:141:433c12", ysrc="abertoli:141:a20361", type="scatter")
+data <- list(segs, England, Mexico, Spain, WWI, WWII, Korea, Vietnam, Afghanistan, Iraq)
+
+layout <- list(title = "<b>United Government and Interstate Wars with at Least 1,000 U.S. Battle Deaths</b>", titlefont = list(size = 22), showlegend = FALSE, xaxis = list(title = "Year", titlefont = list(size = 22), type = "linear", showgrid = TRUE, zeroline = FALSE, showline = TRUE, ticks = "outside", showticklabels = TRUE, tickcolor = "rgb(0,0,0)", tickangle = 0, tickfont = list(size = 15), gridcolor = "rgb(229,229,229)", linecolor = "rgb(127,127,127)"), 
+ yaxis = list(title = " ", titlefont = list(size = 7), showgrid = TRUE, showline = TRUE, zeroline = TRUE, autotick = FALSE, ticks = "outside", showticklabels = TRUE, dtick = 1, tickcolor = "rgb(0,0,0)", tickangle = 0, tickfont = list(size = 19), gridcolor = "rgb(229,229,229)", linecolor = "rgb(127,127,127)"),  margin = list(r = 10), paper_bgcolor = "rgb(255,255,255)", plot_bgcolor = "rgb(255,255,255)")
+
+py$plotly(data, kwargs=list(layout=layout))
