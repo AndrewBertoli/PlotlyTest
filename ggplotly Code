@@ -2,17 +2,24 @@ library(plotly)
 library(lubridate)
 py <- plotly("USER", "PASS")
 
-Wars=decimal_date(as.Date(c("1812-6-18","1846-4-25","1899-6-2","1917-4-1","1942-12-8","1950-7-1","1964-2-23","2001-10-7","2003-3-20")))
+Wars=decimal_date(as.Date(c("1812-6-18","1846-4-25","1899-6-2","1917-4-1","1942-12-8","1950-7-1","1964-2-23",
+"2001-10-7","2003-3-20")))
 
 United.At.Time=c(1,1,1,1,1,1,1,0,1)
 
-WarsNames=c("War of 1812","Mexican-American War","Spanish-American War","World War I","World War II","Korean War","Vietnam War"," War in Afghanistan","War in Iraq")
+WarsNames=c("War of 1812","Mexican-American War","Spanish-American War","World War I","World War II","Korean War",
+"Vietnam War"," War in Afghanistan","War in Iraq")
 
 anyNA=function(points){if(sum(is.na(points))>0){return(TRUE)};return(FALSE)}
 
 USwars=data.frame(Wars,United.At.Time,WarsNames)
 
-z=ggplot()+geom_segment(aes(x=USA$BeginDate,y=USA$United,xend=USA$EndDate,yend=USA$United),size=11,color="cornflowerblue")+geom_point(data=USwars,aes(x=Wars,y=United.At.Time,colour=WarsNames),size=5,fill="white")+scale_colour_manual(" ",values=rep("black",10))+ylab(" ")+xlab("Year")+theme_bw()+theme(axis.text=element_text(size=20),axis.title.x = element_text(vjust=-0.7),axis.title=element_text(size=20),plot.title = element_text(lineheight=1.8,size=rel(4),face="bold",vjust=2,hjust=1.25),legend.position="none")+labs(title="United Government and Interstate Wars with at Least 1,000 U.S. Battle Deaths")
+z=ggplot()+geom_segment(aes(x=USA$BeginDate,y=USA$United,xend=USA$EndDate,yend=USA$United),size=11,color="cornflowerblue")
++geom_point(data=USwars,aes(x=Wars,y=United.At.Time,colour=WarsNames),size=5,fill="white")+scale_colour_manual(" ",
+values=rep("black",10))+ylab(" ")+xlab("Year")+theme_bw()+theme(axis.text=element_text(size=20),axis.title.x = 
+element_text(vjust=-0.7),axis.title=element_text(size=20),plot.title = element_text(lineheight=1.8,size=rel(4),face="bold",
+vjust=2,hjust=1.25),legend.position="none")+labs(title="United Government and Interstate Wars with at 
+Least 1,000 U.S. Battle Deaths")
 
 py$ggplotly(z)
 
