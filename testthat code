@@ -1,0 +1,35 @@
+# The first part of this code can be used to test for problems with the salient features of the code for any graph z.
+# The second part checks that there are no evident errors when the dates are shifted.
+
+test_that("No evident errors detected in Z",{
+ggplot_list=gg2list(z)	
+expect_is(ggplot_list,"list")
+expect_equal(ggplot_list$data[[1]]$type, "scatter") # 
+expect_equal(length(unique(ggplot_list$data[[1]]$y)),3) # Tests that Y has two levels and an NA level, which keeps the blue line broken
+expect_is(ggplot_list$layout$title,"character")
+expect_equal(ggplot_list$data[[1]]$mode,"lines")
+expect_equal(ggplot_list$data[[2]]$mode,"markers")
+expect_equal(length(ggplot_list$data[[1]]),length(ggplot_list$data[[2]])) # Tests that X and Y have the same length.
+})
+
+
+
+
+test_that("Graph Works for Different Dates",{
+
+shift_dates=function(t){
+out=ggplot()+geom_segment(aes(x=USA$BeginDate-t,y=USA$United,xend=USA$EndDate-t,yend=USA$United),size=11,color="cornflowerblue")+geom_point(data=USwars,aes(x=Wars,y=United,colour=WarsNames),size=5,fill="white")+scale_colour_manual(" ",values=rep("black",10))+ylab(" ")+xlab("Year")+theme_bw()+theme(axis.text=element_text(size=20),axis.title.x = element_text(vjust=-0.7),axis.title=element_text(size=20),plot.title = element_text(lineheight=1.8,size=rel(1.6),face="bold"),legend.position="none")+labs(title="United Government and Interstate Wars with at Least 1,000 U.S. Battle Deaths")
+return(out)}
+
+for(k in c(-5000,-1000,-500,-100,-20,20,100,500,1000,5000)){
+new_Z=shift_dates(k)
+test_that("No evident errors detected in New Z",{
+ggplot_list=gg2list(z)	
+expect_is(ggplot_list,"list")
+expect_equal(ggplot_list$data[[1]]$type, "scatter") # 
+expect_equal(length(unique(ggplot_list$data[[1]]$y)),3) # Tests that Y has two levels and an NA level, which keeps the blue line broken
+expect_is(ggplot_list$layout$title,"character")
+expect_equal(ggplot_list$data[[1]]$mode,"lines")
+expect_equal(ggplot_list$data[[2]]$mode,"markers")
+expect_equal(length(ggplot_list$data[[1]]),length(ggplot_list$data[[2]])) # Tests that X and Y have the same length.
+})}})
