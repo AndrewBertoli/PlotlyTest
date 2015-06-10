@@ -17,7 +17,7 @@ USwars=data.frame(Wars,United.At.Time,WarsNames)
 z=ggplot()+geom_segment(aes(x=USA$BeginDate,y=USA$United,xend=USA$EndDate,yend=USA$United),size=11,color="cornflowerblue")+
 geom_point(data=USwars,aes(x=Wars,y=United.At.Time,colour=WarsNames),size=5,fill="white")+scale_colour_manual(" ",
 values=rep("black",10))+ylab(" ")+xlab("Year")+theme_bw()+theme(axis.text=element_text(size=20),axis.title.x = 
-element_text(vjust=-0.7),axis.title=element_text(size=20),plot.title = element_text(lineheight=1.8,size=rel(4),face="bold"),
+element_text(vjust=-0.7),axis.title=element_text(size=20),plot.title = element_text(lineheight=1.8,size=rel(2),face="bold"),
 legend.position="none")+labs(title="United Government and Interstate Wars with at Least 1,000 U.S. Battle Deaths")
 
 py$ggplotly(z)
